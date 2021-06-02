@@ -1,0 +1,568 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SmartEducationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="LecturesId" />
+          </Key>
+          <Property Name="LecturesId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="eId" Type="int" Nullable="false" />
+          <Property Name="InfoType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Value" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ClassSchedule">
+          <Key>
+            <PropertyRef Name="CsId" />
+          </Key>
+          <Property Name="CsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cId" Type="int" Nullable="false" />
+          <Property Name="Day" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Courses">
+          <Key>
+            <PropertyRef Name="cId" />
+          </Key>
+          <Property Name="cId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CourseName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CourseCode" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Enroll">
+          <Key>
+            <PropertyRef Name="eId" />
+          </Key>
+          <Property Name="eId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentId" Type="int" Nullable="false" />
+          <Property Name="cId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lectures">
+          <Key>
+            <PropertyRef Name="LecturesId" />
+          </Key>
+          <Property Name="LecturesId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LsId" Type="int" Nullable="false" />
+          <Property Name="LectureDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LectureSchedual">
+          <Key>
+            <PropertyRef Name="LsId" />
+          </Key>
+          <Property Name="LsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CsId" Type="int" Nullable="false" />
+          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StudentImage">
+          <Key>
+            <PropertyRef Name="ImageId" />
+          </Key>
+          <Property Name="ImageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentId" Type="int" Nullable="false" />
+          <Property Name="ImageType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ImagePath" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ImageDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StudentInfo">
+          <Key>
+            <PropertyRef Name="StudentId" />
+          </Key>
+          <Property Name="StudentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RegNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__Attendance__eId__6EF57B66">
+          <End Role="Enroll" Type="Self.Enroll" Multiplicity="1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Enroll">
+              <PropertyRef Name="eId" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="eId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ClassSchedu__cId__5070F446">
+          <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
+          <End Role="ClassSchedule" Type="Self.ClassSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="cId" />
+            </Principal>
+            <Dependent Role="ClassSchedule">
+              <PropertyRef Name="cId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Enroll__cId__6B24EA82">
+          <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
+          <End Role="Enroll" Type="Self.Enroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="cId" />
+            </Principal>
+            <Dependent Role="Enroll">
+              <PropertyRef Name="cId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Enroll__StudentI__6C190EBB">
+          <End Role="StudentInfo" Type="Self.StudentInfo" Multiplicity="1" />
+          <End Role="Enroll" Type="Self.Enroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StudentInfo">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="Enroll">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Lectures__LsId__5629CD9C">
+          <End Role="LectureSchedual" Type="Self.LectureSchedual" Multiplicity="1" />
+          <End Role="Lectures" Type="Self.Lectures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LectureSchedual">
+              <PropertyRef Name="LsId" />
+            </Principal>
+            <Dependent Role="Lectures">
+              <PropertyRef Name="LsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LectureSch__LsId__534D60F1">
+          <End Role="ClassSchedule" Type="Self.ClassSchedule" Multiplicity="1" />
+          <End Role="LectureSchedual" Type="Self.LectureSchedual" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ClassSchedule">
+              <PropertyRef Name="CsId" />
+            </Principal>
+            <Dependent Role="LectureSchedual">
+              <PropertyRef Name="LsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentIm__Stude__68487DD7">
+          <End Role="StudentInfo" Type="Self.StudentInfo" Multiplicity="1" />
+          <End Role="StudentImage" Type="Self.StudentImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StudentInfo">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="StudentImage">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="timeTable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="SmartEducationModelStoreContainer">
+          <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClassSchedule" EntityType="Self.ClassSchedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Courses" EntityType="Self.Courses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Enroll" EntityType="Self.Enroll" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lectures" EntityType="Self.Lectures" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LectureSchedual" EntityType="Self.LectureSchedual" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentImage" EntityType="Self.StudentImage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentInfo" EntityType="Self.StudentInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Attendance__eId__6EF57B66" Association="Self.FK__Attendance__eId__6EF57B66">
+            <End Role="Enroll" EntitySet="Enroll" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ClassSchedu__cId__5070F446" Association="Self.FK__ClassSchedu__cId__5070F446">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="ClassSchedule" EntitySet="ClassSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Enroll__cId__6B24EA82" Association="Self.FK__Enroll__cId__6B24EA82">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="Enroll" EntitySet="Enroll" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Enroll__StudentI__6C190EBB" Association="Self.FK__Enroll__StudentI__6C190EBB">
+            <End Role="StudentInfo" EntitySet="StudentInfo" />
+            <End Role="Enroll" EntitySet="Enroll" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Lectures__LsId__5629CD9C" Association="Self.FK__Lectures__LsId__5629CD9C">
+            <End Role="LectureSchedual" EntitySet="LectureSchedual" />
+            <End Role="Lectures" EntitySet="Lectures" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LectureSch__LsId__534D60F1" Association="Self.FK__LectureSch__LsId__534D60F1">
+            <End Role="ClassSchedule" EntitySet="ClassSchedule" />
+            <End Role="LectureSchedual" EntitySet="LectureSchedual" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentIm__Stude__68487DD7" Association="Self.FK__StudentIm__Stude__68487DD7">
+            <End Role="StudentInfo" EntitySet="StudentInfo" />
+            <End Role="StudentImage" EntitySet="StudentImage" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SmartEducationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="LecturesId" />
+          </Key>
+          <Property Name="LecturesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="eId" Type="Int32" Nullable="false" />
+          <Property Name="InfoType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Enroll" Relationship="Self.FK__Attendance__eId__6EF57B66" FromRole="Attendance" ToRole="Enroll" />
+        </EntityType>
+        <EntityType Name="ClassSchedule">
+          <Key>
+            <PropertyRef Name="CsId" />
+          </Key>
+          <Property Name="CsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cId" Type="Int32" Nullable="false" />
+          <Property Name="Day" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Cours" Relationship="Self.FK__ClassSchedu__cId__5070F446" FromRole="ClassSchedule" ToRole="Courses" />
+          <NavigationProperty Name="LectureSchedual" Relationship="Self.FK__LectureSch__LsId__534D60F1" FromRole="ClassSchedule" ToRole="LectureSchedual" />
+        </EntityType>
+        <EntityType Name="Cours">
+          <Key>
+            <PropertyRef Name="cId" />
+          </Key>
+          <Property Name="cId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CourseCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ClassSchedules" Relationship="Self.FK__ClassSchedu__cId__5070F446" FromRole="Courses" ToRole="ClassSchedule" />
+          <NavigationProperty Name="Enrolls" Relationship="Self.FK__Enroll__cId__6B24EA82" FromRole="Courses" ToRole="Enroll" />
+        </EntityType>
+        <EntityType Name="Enroll">
+          <Key>
+            <PropertyRef Name="eId" />
+          </Key>
+          <Property Name="eId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentId" Type="Int32" Nullable="false" />
+          <Property Name="cId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Attendances" Relationship="Self.FK__Attendance__eId__6EF57B66" FromRole="Enroll" ToRole="Attendance" />
+          <NavigationProperty Name="Cours" Relationship="Self.FK__Enroll__cId__6B24EA82" FromRole="Enroll" ToRole="Courses" />
+          <NavigationProperty Name="StudentInfo" Relationship="Self.FK__Enroll__StudentI__6C190EBB" FromRole="Enroll" ToRole="StudentInfo" />
+        </EntityType>
+        <EntityType Name="Lecture">
+          <Key>
+            <PropertyRef Name="LecturesId" />
+          </Key>
+          <Property Name="LecturesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LsId" Type="Int32" Nullable="false" />
+          <Property Name="LectureDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="LectureSchedual" Relationship="Self.FK__Lectures__LsId__5629CD9C" FromRole="Lectures" ToRole="LectureSchedual" />
+        </EntityType>
+        <EntityType Name="LectureSchedual">
+          <Key>
+            <PropertyRef Name="LsId" />
+          </Key>
+          <Property Name="LsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CsId" Type="Int32" Nullable="false" />
+          <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="StartTime" Type="Time" Nullable="false" Precision="7" />
+          <NavigationProperty Name="ClassSchedule" Relationship="Self.FK__LectureSch__LsId__534D60F1" FromRole="LectureSchedual" ToRole="ClassSchedule" />
+          <NavigationProperty Name="Lectures" Relationship="Self.FK__Lectures__LsId__5629CD9C" FromRole="LectureSchedual" ToRole="Lectures" />
+        </EntityType>
+        <EntityType Name="StudentImage">
+          <Key>
+            <PropertyRef Name="ImageId" />
+          </Key>
+          <Property Name="ImageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentId" Type="Int32" Nullable="false" />
+          <Property Name="ImageType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ImageDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="StudentInfo" Relationship="Self.FK__StudentIm__Stude__68487DD7" FromRole="StudentImage" ToRole="StudentInfo" />
+        </EntityType>
+        <EntityType Name="StudentInfo">
+          <Key>
+            <PropertyRef Name="StudentId" />
+          </Key>
+          <Property Name="StudentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RegNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Enrolls" Relationship="Self.FK__Enroll__StudentI__6C190EBB" FromRole="StudentInfo" ToRole="Enroll" />
+          <NavigationProperty Name="StudentImages" Relationship="Self.FK__StudentIm__Stude__68487DD7" FromRole="StudentInfo" ToRole="StudentImage" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK__Attendance__eId__6EF57B66">
+          <End Role="Enroll" Type="Self.Enroll" Multiplicity="1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Enroll">
+              <PropertyRef Name="eId" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="eId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ClassSchedu__cId__5070F446">
+          <End Role="Courses" Type="Self.Cours" Multiplicity="1" />
+          <End Role="ClassSchedule" Type="Self.ClassSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="cId" />
+            </Principal>
+            <Dependent Role="ClassSchedule">
+              <PropertyRef Name="cId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LectureSch__LsId__534D60F1">
+          <End Role="ClassSchedule" Type="Self.ClassSchedule" Multiplicity="1" />
+          <End Role="LectureSchedual" Type="Self.LectureSchedual" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ClassSchedule">
+              <PropertyRef Name="CsId" />
+            </Principal>
+            <Dependent Role="LectureSchedual">
+              <PropertyRef Name="LsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Enroll__cId__6B24EA82">
+          <End Role="Courses" Type="Self.Cours" Multiplicity="1" />
+          <End Role="Enroll" Type="Self.Enroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="cId" />
+            </Principal>
+            <Dependent Role="Enroll">
+              <PropertyRef Name="cId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Enroll__StudentI__6C190EBB">
+          <End Role="StudentInfo" Type="Self.StudentInfo" Multiplicity="1" />
+          <End Role="Enroll" Type="Self.Enroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StudentInfo">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="Enroll">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Lectures__LsId__5629CD9C">
+          <End Role="LectureSchedual" Type="Self.LectureSchedual" Multiplicity="1" />
+          <End Role="Lectures" Type="Self.Lecture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LectureSchedual">
+              <PropertyRef Name="LsId" />
+            </Principal>
+            <Dependent Role="Lectures">
+              <PropertyRef Name="LsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentIm__Stude__68487DD7">
+          <End Role="StudentInfo" Type="Self.StudentInfo" Multiplicity="1" />
+          <End Role="StudentImage" Type="Self.StudentImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StudentInfo">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="StudentImage">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SmartEducationEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Attendances" EntityType="Self.Attendance" />
+          <EntitySet Name="ClassSchedules" EntityType="Self.ClassSchedule" />
+          <EntitySet Name="Courses" EntityType="Self.Cours" />
+          <EntitySet Name="Enrolls" EntityType="Self.Enroll" />
+          <EntitySet Name="Lectures" EntityType="Self.Lecture" />
+          <EntitySet Name="LectureScheduals" EntityType="Self.LectureSchedual" />
+          <EntitySet Name="StudentImages" EntityType="Self.StudentImage" />
+          <EntitySet Name="StudentInfoes" EntityType="Self.StudentInfo" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK__Attendance__eId__6EF57B66" Association="Self.FK__Attendance__eId__6EF57B66">
+            <End Role="Enroll" EntitySet="Enrolls" />
+            <End Role="Attendance" EntitySet="Attendances" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ClassSchedu__cId__5070F446" Association="Self.FK__ClassSchedu__cId__5070F446">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="ClassSchedule" EntitySet="ClassSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LectureSch__LsId__534D60F1" Association="Self.FK__LectureSch__LsId__534D60F1">
+            <End Role="ClassSchedule" EntitySet="ClassSchedules" />
+            <End Role="LectureSchedual" EntitySet="LectureScheduals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Enroll__cId__6B24EA82" Association="Self.FK__Enroll__cId__6B24EA82">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="Enroll" EntitySet="Enrolls" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Enroll__StudentI__6C190EBB" Association="Self.FK__Enroll__StudentI__6C190EBB">
+            <End Role="StudentInfo" EntitySet="StudentInfoes" />
+            <End Role="Enroll" EntitySet="Enrolls" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Lectures__LsId__5629CD9C" Association="Self.FK__Lectures__LsId__5629CD9C">
+            <End Role="LectureSchedual" EntitySet="LectureScheduals" />
+            <End Role="Lectures" EntitySet="Lectures" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentIm__Stude__68487DD7" Association="Self.FK__StudentIm__Stude__68487DD7">
+            <End Role="StudentInfo" EntitySet="StudentInfoes" />
+            <End Role="StudentImage" EntitySet="StudentImages" />
+          </AssociationSet>
+          <FunctionImport Name="timeTable" ReturnType="Collection(SmartEducationModel.timeTable_Result)" />
+        </EntityContainer>
+        <ComplexType Name="timeTable_Result">
+          <Property Type="String" Name="CourseName" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Day" Nullable="true" MaxLength="50" />
+          <Property Type="Time" Name="StartTime" Nullable="false" />
+          <Property Type="Time" Name="EndTime" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SmartEducationModelStoreContainer" CdmEntityContainer="SmartEducationEntities">
+          <EntitySetMapping Name="Attendances">
+            <EntityTypeMapping TypeName="SmartEducationModel.Attendance">
+              <MappingFragment StoreEntitySet="Attendance">
+                <ScalarProperty Name="LecturesId" ColumnName="LecturesId" />
+                <ScalarProperty Name="eId" ColumnName="eId" />
+                <ScalarProperty Name="InfoType" ColumnName="InfoType" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClassSchedules">
+            <EntityTypeMapping TypeName="SmartEducationModel.ClassSchedule">
+              <MappingFragment StoreEntitySet="ClassSchedule">
+                <ScalarProperty Name="CsId" ColumnName="CsId" />
+                <ScalarProperty Name="cId" ColumnName="cId" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="SmartEducationModel.Cours">
+              <MappingFragment StoreEntitySet="Courses">
+                <ScalarProperty Name="cId" ColumnName="cId" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="CourseCode" ColumnName="CourseCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Enrolls">
+            <EntityTypeMapping TypeName="SmartEducationModel.Enroll">
+              <MappingFragment StoreEntitySet="Enroll">
+                <ScalarProperty Name="eId" ColumnName="eId" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="cId" ColumnName="cId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lectures">
+            <EntityTypeMapping TypeName="SmartEducationModel.Lecture">
+              <MappingFragment StoreEntitySet="Lectures">
+                <ScalarProperty Name="LecturesId" ColumnName="LecturesId" />
+                <ScalarProperty Name="LsId" ColumnName="LsId" />
+                <ScalarProperty Name="LectureDate" ColumnName="LectureDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LectureScheduals">
+            <EntityTypeMapping TypeName="SmartEducationModel.LectureSchedual">
+              <MappingFragment StoreEntitySet="LectureSchedual">
+                <ScalarProperty Name="LsId" ColumnName="LsId" />
+                <ScalarProperty Name="CsId" ColumnName="CsId" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentImages">
+            <EntityTypeMapping TypeName="SmartEducationModel.StudentImage">
+              <MappingFragment StoreEntitySet="StudentImage">
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="ImageType" ColumnName="ImageType" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="ImageDate" ColumnName="ImageDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentInfoes">
+            <EntityTypeMapping TypeName="SmartEducationModel.StudentInfo">
+              <MappingFragment StoreEntitySet="StudentInfo">
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="RegNo" ColumnName="RegNo" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SmartEducationModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="timeTable" FunctionName="SmartEducationModel.Store.timeTable">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SmartEducationModel.timeTable_Result">
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

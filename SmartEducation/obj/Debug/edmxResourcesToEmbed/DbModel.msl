@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SmartEducationModelStoreContainer" CdmEntityContainer="SmartEducationEntities">
+    <EntitySetMapping Name="Attendances">
+      <EntityTypeMapping TypeName="SmartEducationModel.Attendance">
+        <MappingFragment StoreEntitySet="Attendance">
+          <ScalarProperty Name="LecturesId" ColumnName="LecturesId" />
+          <ScalarProperty Name="eId" ColumnName="eId" />
+          <ScalarProperty Name="InfoType" ColumnName="InfoType" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ClassSchedules">
+      <EntityTypeMapping TypeName="SmartEducationModel.ClassSchedule">
+        <MappingFragment StoreEntitySet="ClassSchedule">
+          <ScalarProperty Name="CsId" ColumnName="CsId" />
+          <ScalarProperty Name="cId" ColumnName="cId" />
+          <ScalarProperty Name="Day" ColumnName="Day" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Courses">
+      <EntityTypeMapping TypeName="SmartEducationModel.Cours">
+        <MappingFragment StoreEntitySet="Courses">
+          <ScalarProperty Name="cId" ColumnName="cId" />
+          <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+          <ScalarProperty Name="CourseCode" ColumnName="CourseCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Enrolls">
+      <EntityTypeMapping TypeName="SmartEducationModel.Enroll">
+        <MappingFragment StoreEntitySet="Enroll">
+          <ScalarProperty Name="eId" ColumnName="eId" />
+          <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+          <ScalarProperty Name="cId" ColumnName="cId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Lectures">
+      <EntityTypeMapping TypeName="SmartEducationModel.Lecture">
+        <MappingFragment StoreEntitySet="Lectures">
+          <ScalarProperty Name="LecturesId" ColumnName="LecturesId" />
+          <ScalarProperty Name="LsId" ColumnName="LsId" />
+          <ScalarProperty Name="LectureDate" ColumnName="LectureDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LectureScheduals">
+      <EntityTypeMapping TypeName="SmartEducationModel.LectureSchedual">
+        <MappingFragment StoreEntitySet="LectureSchedual">
+          <ScalarProperty Name="LsId" ColumnName="LsId" />
+          <ScalarProperty Name="CsId" ColumnName="CsId" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentImages">
+      <EntityTypeMapping TypeName="SmartEducationModel.StudentImage">
+        <MappingFragment StoreEntitySet="StudentImage">
+          <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+          <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+          <ScalarProperty Name="ImageType" ColumnName="ImageType" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="ImageDate" ColumnName="ImageDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentInfoes">
+      <EntityTypeMapping TypeName="SmartEducationModel.StudentInfo">
+        <MappingFragment StoreEntitySet="StudentInfo">
+          <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="RegNo" ColumnName="RegNo" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="SmartEducationModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="timeTable" FunctionName="SmartEducationModel.Store.timeTable">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SmartEducationModel.timeTable_Result">
+          <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+          <ScalarProperty Name="Day" ColumnName="Day" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>
