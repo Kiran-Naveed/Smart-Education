@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
+using System.Web;
 
 namespace SmartEducation.Controllers
 {
@@ -127,7 +128,7 @@ namespace SmartEducation.Controllers
            
         }
 
-
+        [HttpPost]
         public bool SaveImage(StudentImagesModel imageModel) {
             bool flag = false;
             //byte[] imageArray = File.ReadAllBytes(@"D:\Pictures\Saved Pictures\baloons.jpg");
@@ -138,21 +139,34 @@ namespace SmartEducation.Controllers
                 SmartEducationEntities db = new SmartEducationEntities();
                 StudentImage imageObj = new StudentImage();
                 imageObj.StudentId = imageModel.StudentId;
+         
                 imageObj.ImageType = imageModel.ImageType;
-                Image image = imageModel.image;
-                
+                DateTime date = DateTime.Now;
+                imageObj.ImageDate = date;
+
+                Image image = Image.FromStream(new MemoryStream(Convert.FromBase64String(imageModel.image))); ;
+                String path = HttpContext.Current.Server.MapPath("~/ImageStorage"); //Path
+
+                //Check if directory exist
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                }
+                string imageName = imageObj.ImageType + imageObj.StudentId+".jpg";
+ 
+                string imgPath = Path.Combine(path, imageName);
+                byte[] imageBytes = (byte[])(new ImageConverter()).ConvertTo(image, typeof(byte[]));
+                File.WriteAllBytes(imgPath, imageBytes);
+                imageObj.ImagePath = imgPath;
+                db.StudentImages.Add(imageObj);
                 db.SaveChanges();
                 return true;
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 return false;
             }
-
-
-
-
-            return flag;
         }
 
     

@@ -10,6 +10,7 @@ namespace SmartEducation.Models
     {
         public int StudentId { get; set; }
         public String ImageType { get; set; }
-        public Image image { get; set; }
+        public String image { get; set; }
+       
     }
 }
